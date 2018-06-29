@@ -9,6 +9,21 @@
 import UIKit
 import CoreMotion
 
+extension Formatter {
+    static let withSeparator: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.groupingSeparator = ","
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
+}
+
+extension BinaryInteger {
+    var formattedWithSeparator: String {
+        return Formatter.withSeparator.string(for: self) ?? ""
+    }
+}
+
 class ViewController: UIViewController {
 
     var stepCount: EFCountingLabel!
@@ -28,9 +43,12 @@ class ViewController: UIViewController {
         stepCount.method = .easeInOut
         stepCount.animationDuration = 0.4
         stepCount.format = "%d"
+        stepCount.formatBlock = { num in
+            return Int(num).formattedWithSeparator
+        }
         stepCount.translatesAutoresizingMaskIntoConstraints = false
         stepCount.text = "..."
-        stepCount.font = UIFont.systemFont(ofSize: 48, weight: .light)
+        stepCount.font = UIFont.monospacedDigitSystemFont(ofSize: 64, weight: .light)
         stepCount.textColor = .white
         stepCount.sizeToFit()
 
@@ -52,6 +70,10 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func stopUpdates() {
+        pedometer?.stopUpdates()
+    }
 
     func startUpdates() {
         let now : Date = Date()
@@ -66,17 +88,13 @@ class ViewController: UIViewController {
     }
     
     func updateDisplay(_ data: CMPedometerData?, _ error: Error?) {
+        
         DispatchQueue.main.async {
             if (error != nil) {
                 self.stepCount.text = "Couldn't access"
             }
-            if let data = data {
-                //                let pct = data.numberOfSteps.floatValue / 10000
-                //                    self.stepCount.text = "\(Int(pct * 100))%"
-                //                self.stepCount.text = "\((10000 - data.numberOfSteps.intValue).formattedWithSeparator)"
-                //                self.stepCount.text = "\(data.numberOfSteps.intValue.formattedWithSeparator)"
-                
-                let newVal = CGFloat(10000 - data.numberOfSteps.intValue)
+            if let data = data {                
+                let newVal = CGFloat(data.numberOfSteps.intValue)
                 if (self.stepCount.currentValue().isZero) {
                     self.stepCount.countFrom(newVal, to: newVal)
                 }

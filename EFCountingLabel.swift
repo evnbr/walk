@@ -74,7 +74,7 @@ open class EFCountingLabel: UILabel {
     
     public var format = "%f"
     public var method = EFLabelCountingMethod.linear
-    public var animationDuration = TimeInterval(2)
+    public var animationDuration = TimeInterval(0.5)
     public var formatBlock: ((CGFloat) -> String)?
     public var attributedFormatBlock: ((CGFloat) -> NSAttributedString)?
     public var completionBlock: (() -> Void)?
