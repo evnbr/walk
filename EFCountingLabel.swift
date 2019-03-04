@@ -157,7 +157,7 @@ open class EFCountingLabel: UILabel {
     
     public func currentValue() -> CGFloat {
         if self.progress == 0 {
-            return 0
+            return self.startingValue ?? 0
         } else if self.progress >= self.totalTime {
             return self.destinationValue
         }
