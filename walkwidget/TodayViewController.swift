@@ -38,7 +38,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
         isFirstLoad = true
-        view.backgroundColor = .black
+//        view.backgroundColor = .black
 
         stepCount = EFCountingLabel()
         stepCount.method = .easeInOut
@@ -58,14 +58,13 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             stepCount.text = "0"
         }
 
-        stepCount.font = UIFont.monospacedDigitSystemFont(ofSize: 40, weight: .regular)
-//        stepCount.textColor = .darkText //UIColor.darkText
-        stepCount.textColor = .white //UIColor.darkText
+        stepCount.font = UIFont.monospacedDigitSystemFont(ofSize: 32, weight: .medium)
+        stepCount.textColor = UIColor.label
         stepCount.alpha = 0.5
         stepCount.sizeToFit()
         view.addSubview(stepCount)
         
-        stepCount.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -2).isActive = true
+        stepCount.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -16).isActive = true
         stepCount.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
         
         if CMPedometer.isStepCountingAvailable() {
