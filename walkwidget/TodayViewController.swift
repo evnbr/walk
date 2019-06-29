@@ -105,11 +105,11 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             self.stepCount.text = "???"
         }
         if let data = data {
-            let newVal = CGFloat(data.numberOfSteps.intValue)
+            let newVal = data.numberOfSteps.intValue
             UserDefaults.standard.set(newVal, forKey: kLastStepCount)
             
             stepCount.alpha = 1
-            self.stepCount.countFromCurrentValueTo(newVal)
+            self.stepCount.countFromCurrentValueTo(CGFloat(newVal))
 
             isFirstLoad = false
         }
